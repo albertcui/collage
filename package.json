@@ -1,0 +1,16 @@
+{
+  "name": "collage",
+  "version": "1.0.0",
+  "description": "College maker",
+  "main": "web.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Albert Cui",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-session": "^2.0.0-beta.1",
+    "express": "^4.15.0",
+    "picasa": "^1.0.1"
+  }
+}
