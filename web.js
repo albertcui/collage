@@ -7,6 +7,14 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const picasa = new Picasa()
 const app = express();
 
+app.use('/', express.static('public'))
+
+// Set CORS
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+})
+
 /***** Passport/Auth Boilerplate *****/
 const sessOptions = {
   domain: process.env.COOKIE_DOMAIN,
@@ -45,11 +53,6 @@ passport.deserializeUser(function(obj, cb) {
   cb(null, obj);
 });
 
-app.route("/")
-.get((req, res) => {
-  res.send("<html><body>yo</body></html>").end();
-})
-
 app.route("/login")
 .get(passport.authenticate('google', { scope: ['profile https://picasaweb.google.com/data/'] }))
 
@@ -68,9 +71,10 @@ app.route("/photos")
       if (err) {
         return next(err);
       }
-      res.send(photos.reduce((a, i) => {
-        return a + "<img src=" + i.content.src + ">";
-      }, "")).end();
+      res.json(photos).end();
+      // res.send(photos.reduce((a, i) => {
+      //   return a + "<img src=" + i.content.src + ">";
+      // }, "")).end();
     }) 
   } else {
     return next("no session");
